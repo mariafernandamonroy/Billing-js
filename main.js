@@ -97,10 +97,13 @@ class Controlador {
 
   leer_texto(){
     document.querySelector("button").addEventListener("click",function(){
-      var cantidad = document.getElementsByClassName("cantidad").value;
-      var tipoElectro = document.getElementsByClassName("tipo_electrodomestico").value;
-      console.log("imprimiendo texto: ")
-      console.log(cantidad);
+      var cantidad = document.getElementById("cantidad").value;
+      var tipoElectro = document.getElementById("tipo_electrodomestico").value;
+      var consumo = document.getElementById("consumo").value;
+      var procedencia = document.getElementById("procedencia").value;
+      var pulgadas = document.getElementById("pulgadas").value;
+      var tdt = document.getElementById("tdt").value;
+      var capacidad = document.getElementById("capacidad").value;
     })
       
     
