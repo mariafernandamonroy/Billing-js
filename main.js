@@ -67,7 +67,7 @@ class Televisor extends Electrodomesticos {
 }
 
 class Nevera extends Electrodomesticos {
-  Nevera(consumo, procedencia, capacidad){
+  constructor(consumo, procedencia, capacidad){
       super(consumo, procedencia);
       this.capacidad = capacidad;
   }
@@ -91,8 +91,83 @@ class Nevera extends Electrodomesticos {
   calcularPrecio(){
       return super.calcularPrecio() + valorExtra(getPrecio());
   }
+}
+
+class Controlador {
+  seleccionTelevisor(consumo, procedencia) {
+      var pulgadas = prompt("Ingrese las pulgadas: ");
+      var esTDT = ("¿Tiene sintonizador de TDT? (si/no)");
+      var tdt = tieneSintonizador(esTDT);
+      var televisor = new Televisor(consumo, procedencia, pulgadas, tdt);
+      let precio = televisor.calcularPrecio();
+
+      return precio;
+  }
+
+  tieneSintonizador(esTDT){
+      var tdt = false;
+      if (esTDT == 's') {
+          tdt = true;
+      } else if (esTDT == 'n') {
+          tdt = false;
+      }
+      return tdt;
+  }
+    seleccionNevera(consumo, procedencia){
+    var capacidad = prompt("Ingrese la capacidad (lt): ");
+    var nevera = new Nevera(consumo, procedencia, capacidad);
+    precio = nevera.calcularPrecio();
+    return precio;
+  }
+  seleccionElectrodomesticos(consumo, procedencia){
+      var electrodomestico = new Electrodomesticos(consumo,procedencia);
+      let precio = electrodomestico.calcularPrecio();
+
+      return precio;
+  }
+}
 
 
-  
+self.addEventListener("load",main);
 
+function main() {
+  var salir = false;
+  var precioTotal = 0.0;
+  var controlador = new Controlador();
+
+  while (!salir){
+      var precioItem = 0;
+      var tipoElectro = prompt("Por favor ingrese el tipo de electrodomestico: \n" +
+              "1) Televisor \n" +
+              "2) Nevera\n" +
+              "3) Otros\n" +
+              "");
+      var consumo = prompt("Ingrese el consumo (A,B,C): ");
+      var procedencia = ("Ingrese la procedencia (nacional,importado): ");
+
+      switch (tipoElectro){
+          case '1':
+              precioItem = controlador.seleccionTelevisor(consumo, procedencia);
+              precioTotal += precioItem;
+              System.out.print("El precio de este item es de: " + precioItem + "\n");
+              break;
+          case '2':
+              precioItem = controlador.seleccionNevera(consumo,procedencia);
+              precioTotal += precioItem;
+              System.out.print("El precio de este item es de: " + precioItem + "\n");
+              break;
+          case '3':
+              precioItem = controlador.seleccionElectrodomesticos(consumo,procedencia);
+              precioTotal += precioItem;
+              System.out.print("El precio de este item es de: " + precioItem + "\n");
+              break;
+      }
+
+      var decision = prompt("Desea finalizar?:\n" +
+              "1) Si \n" +
+              "2) No\n" +
+              "");
+      if (decision == '1'){salir=true;}
+  }
+  System.out.print("El costo total de su producto es de: " + precioTotal);
 }
