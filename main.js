@@ -94,21 +94,42 @@ class Nevera extends Electrodomesticos {
 }
 
 class Controlador {
+
+  leer_texto(){
+    document.querySelector("button").addEventListener("click",function(){
+      var cantidad = document.getElementsByClassName("cantidad").value;
+      var tipoElectro = document.getElementsByClassName("tipo_electrodomestico").value;
+      console.log("imprimiendo texto: ")
+      console.log(cantidad);
+    })
+      
+    
+  
+  }
+
+ 
+    
+
+    
+  
+  
   seleccionTelevisor(consumo, procedencia) {
-      var pulgadas = prompt("Ingrese las pulgadas: ");
+      // var pulgadas = prompt("Ingrese las pulgadas: ");
+      var pulgadas = document.getElementsByClassName("pulgadas").value;
+      console.log(pulgadas);
       var esTDT = ("¿Tiene sintonizador de TDT? (si/no)");
       var tdt = tieneSintonizador(esTDT);
       var televisor = new Televisor(consumo, procedencia, pulgadas, tdt);
-      let precio = televisor.calcularPrecio();
+      var precio = televisor.calcularPrecio();
 
       return precio;
   }
 
   tieneSintonizador(esTDT){
       var tdt = false;
-      if (esTDT == 's') {
+      if (esTDT == 'si') {
           tdt = true;
-      } else if (esTDT == 'n') {
+      } else if (esTDT == 'no') {
           tdt = false;
       }
       return tdt;
@@ -128,6 +149,8 @@ class Controlador {
 }
 
 
+
+
 self.addEventListener("load",main);
 
 function main() {
@@ -135,39 +158,41 @@ function main() {
   var precioTotal = 0.0;
   var controlador = new Controlador();
 
-  while (!salir){
+  // while (!salir){
       var precioItem = 0;
-      var tipoElectro = prompt("Por favor ingrese el tipo de electrodomestico: \n" +
-              "1) Televisor \n" +
-              "2) Nevera\n" +
-              "3) Otros\n" +
-              "");
-      var consumo = prompt("Ingrese el consumo (A,B,C): ");
-      var procedencia = ("Ingrese la procedencia (nacional,importado): ");
+      controlador.leer_texto();
 
-      switch (tipoElectro){
-          case '1':
-              precioItem = controlador.seleccionTelevisor(consumo, procedencia);
-              precioTotal += precioItem;
-              System.out.print("El precio de este item es de: " + precioItem + "\n");
-              break;
-          case '2':
-              precioItem = controlador.seleccionNevera(consumo,procedencia);
-              precioTotal += precioItem;
-              System.out.print("El precio de este item es de: " + precioItem + "\n");
-              break;
-          case '3':
-              precioItem = controlador.seleccionElectrodomesticos(consumo,procedencia);
-              precioTotal += precioItem;
-              System.out.print("El precio de este item es de: " + precioItem + "\n");
-              break;
-      }
+      // var tipoElectro = prompt("Por favor ingrese el tipo de electrodomestico: \n" +
+      //         "1) Televisor \n" +
+      //         "2) Nevera\n" +
+      //         "3) Otros\n" +
+      //         "");
+  //     var consumo = prompt("Ingrese el consumo (A,B,C): ");
+  //     var procedencia = ("Ingrese la procedencia (nacional,importado): ");
 
-      var decision = prompt("Desea finalizar?:\n" +
-              "1) Si \n" +
-              "2) No\n" +
-              "");
-      if (decision == '1'){salir=true;}
-  }
-  System.out.print("El costo total de su producto es de: " + precioTotal);
+  //     switch (tipoElectro){
+  //         case '1':
+  //             precioItem = controlador.seleccionTelevisor(consumo, procedencia);
+  //             precioTotal += precioItem;
+  //             System.out.print("El precio de este item es de: " + precioItem + "\n");
+  //             break;
+  //         case '2':
+  //             precioItem = controlador.seleccionNevera(consumo,procedencia);
+  //             precioTotal += precioItem;
+  //             // System.out.print("El precio de este item es de: " + precioItem + "\n");
+  //             break;
+  //         case '3':
+  //             precioItem = controlador.seleccionElectrodomesticos(consumo,procedencia);
+  //             precioTotal += precioItem;
+  //             // System.out.print("El precio de este item es de: " + precioItem + "\n");
+  //             break;
+  //     }
+
+  //     var decision = prompt("Desea finalizar?:\n" +
+  //             "1) Si \n" +
+  //             "2) No\n" +
+  //             "");
+  //     if (decision == '1'){salir=true;}
+  // }
+  // System.out.print("El costo total de su producto es de: " + precioTotal);
 }
