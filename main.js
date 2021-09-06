@@ -95,7 +95,7 @@ class Nevera extends Electrodomesticos {
 
 class Controlador {
 
-  leer_texto(){
+  agregarInventario(){
     document.querySelector("button").addEventListener("click",function(){
       var cantidad = document.getElementById("cantidad").value;
       var tipoElectro = document.getElementById("tipo_electrodomestico").value;
@@ -104,17 +104,33 @@ class Controlador {
       var pulgadas = document.getElementById("pulgadas").value;
       var tdt = document.getElementById("tdt").value;
       var capacidad = document.getElementById("capacidad").value;
-    })
       
-    
-  
-  }
+      var electroInventario = {
+        cantidad: cantidad,
+        consumo: consumo,
+        procedencia: procedencia
+      }
+      console.log(electroInventario);
 
+      var televisorInventario = {
+        cantidad: cantidad,
+        consumo: consumo,
+        procedencia: procedencia, 
+        pulgadas: pulgadas,
+        tdt: tdt,
+      }
+      console.log(televisorInventario);
+
+      var neveraInventario = {
+        cantidad: cantidad,
+        consumo: consumo,
+        procedencia: procedencia, 
+        capacidad: cantidad,
+      }
+      console.log(neveraInventario);
  
-    
-
-    
-  
+    })
+  }
   
   seleccionTelevisor(consumo, procedencia) {
       // var pulgadas = prompt("Ingrese las pulgadas: ");
@@ -153,17 +169,17 @@ class Controlador {
 
 
 
-
 self.addEventListener("load",main);
 
 function main() {
   var salir = false;
   var precioTotal = 0.0;
   var controlador = new Controlador();
+  var precioItem = 0;
+  controlador.agregarInventario();
+      
+  
 
-  // while (!salir){
-      var precioItem = 0;
-      controlador.leer_texto();
 
       // var tipoElectro = prompt("Por favor ingrese el tipo de electrodomestico: \n" +
       //         "1) Televisor \n" +
