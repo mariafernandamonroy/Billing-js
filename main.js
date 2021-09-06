@@ -105,30 +105,17 @@ class Controlador {
       var tdt = document.getElementById("tdt").value;
       var capacidad = document.getElementById("capacidad").value;
       
-      var electroInventario = {
+      var inventario = {
         cantidad: cantidad,
+        tipoElectro: tipoElectro,
         consumo: consumo,
-        procedencia: procedencia
-      }
-      console.log(electroInventario);
-
-      var televisorInventario = {
-        cantidad: cantidad,
-        consumo: consumo,
-        procedencia: procedencia, 
+        procedencia: procedencia,
         pulgadas: pulgadas,
         tdt: tdt,
-      }
-      console.log(televisorInventario);
-
-      var neveraInventario = {
-        cantidad: cantidad,
-        consumo: consumo,
-        procedencia: procedencia, 
         capacidad: cantidad,
       }
-      console.log(neveraInventario);
- 
+      console.log(inventario);
+
     })
   }
   
@@ -162,7 +149,6 @@ class Controlador {
   seleccionElectrodomesticos(consumo, procedencia){
       var electrodomestico = new Electrodomesticos(consumo,procedencia);
       let precio = electrodomestico.calcularPrecio();
-
       return precio;
   }
 }
@@ -177,7 +163,7 @@ function main() {
   var controlador = new Controlador();
   var precioItem = 0;
   controlador.agregarInventario();
-      
+  
   
 
 
