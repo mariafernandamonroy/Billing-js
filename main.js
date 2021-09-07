@@ -133,15 +133,6 @@ class Controlador {
       console.log(precio);
       return precio;
   }
-  tieneSintonizador(esTDT){
-    var tdt = false;
-    if (esTDT == 'si') {
-        tdt = true;
-    } else if (esTDT == 'no') {
-        tdt = false;
-    }
-    return tdt;
-  }
   seleccionNevera(consumo, procedencia,capacidad){
     cantidad = parseInt(capacidad);
     var nevera = new Nevera(consumo, procedencia, capacidad);
