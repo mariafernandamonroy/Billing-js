@@ -120,7 +120,6 @@ class Facturación {
 }
 
 class Inventario{
-  
   constructor(producto){
     this.producto = producto;
     this.key = this.key;
@@ -131,6 +130,7 @@ class Inventario{
       key: this.producto.nombre,
       value: this.producto
     };
+    window.localStorage.setItem(inventario.key,inventario);
     console.log(inventario);
   }
 }
