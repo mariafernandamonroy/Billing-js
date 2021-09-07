@@ -1,4 +1,7 @@
 'use strict';
+// import { randomUUID } from "crypto";
+import fs from "fs-extra"; 
+
 class Electrodomesticos {
   constructor(consumo,procedencia){
     this.nombre = "General";
@@ -116,7 +119,10 @@ class Nevera extends Electrodomesticos {
 }
 
 class Facturación {
-
+  constructor(inventario){
+    this.inventario = inventario;
+  }
+  filtro = numeros.filter(function(inventario){return x});
 }
 
 class Inventario{
@@ -126,12 +132,17 @@ class Inventario{
     this.value = this.value;
   }
   agregarInventario(){
-    var inventario = {
-      key: this.producto.nombre,
-      value: this.producto
-    };
-    window.localStorage.setItem(inventario.key,inventario);
-    console.log(inventario);
+    // var inventario = {
+    //   key: this.producto.nombre,
+    //   value: this.producto
+    // };
+    // var object = JSON.stringify(this.producto);
+    // window.localStorage.setItem(uuid.v1(),object);
+    // console.log(inventario);
+
+    var arrayJson = this.fs.readJSON(".\database.json").then((data) => console.log(data));
+    this.fs.writeJSON(".\database.json",[...arrayJson, this.producto]);
+    
   }
 }
 
