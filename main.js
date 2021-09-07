@@ -1,8 +1,8 @@
 'use strict';
 class Electrodomesticos {
   constructor(consumo,procedencia){
-    this.consumo;
-    this.procedencia;
+    this.consumo = consumo;
+    this.procedencia = procedencia;
     this.precio = 0.0;
   }
 
@@ -51,7 +51,7 @@ class Televisor extends Electrodomesticos {
   }
 
   calcularPrecio() {
-    precio = super.calcularPrecio();
+    var precio = super.calcularPrecio();
     tamanoPulgadas = getPulgadas();
     esTDT = isTDT();
     if(tamanoPulgadas > 40){
@@ -93,63 +93,66 @@ class Nevera extends Electrodomesticos {
   }
 }
 
-class Controlador {
+class Facturación {
 
-  agregarInventario(){
-    document.querySelector("button").addEventListener("click",function(){
-      var cantidad = document.getElementById("cantidad").value;
-      var tipoElectro = document.getElementById("tipo_electrodomestico").value;
-      var consumo = document.getElementById("consumo").value;
-      var procedencia = document.getElementById("procedencia").value;
-      var pulgadas = document.getElementById("pulgadas").value;
-      var tdt = document.getElementById("tdt").value;
-      var capacidad = document.getElementById("capacidad").value;
-      
-      var inventario = {
-        cantidad: cantidad,
-        tipoElectro: tipoElectro,
-        consumo: consumo,
-        procedencia: procedencia,
-        pulgadas: pulgadas,
-        tdt: tdt,
-        capacidad: cantidad,
-      }
-      console.log(inventario);
+}
 
-    })
+class Inventario{
+  constructor(electrodomestico,televisor,nevera,cantidad){
+    this.electrodomestico = electrodomestico;
+    this.televisor = televisor;
+    this.nevera = nevera;
+    this.cantidad = cantidad;
+    this.inventario = {
+      cantidad: this.cantidad,
+      consumo: electrodomestico.consumo,
+      procedencia: electrodomestico.procedencia,
+      tipoElectro: tipoElectro,
+      pulgadas: televisor.pulgadas,
+      tdt: televisor.tdt,
+      cantidad: nevera.cantidad
+    }
+    console.log(inventario);
   }
-  
-  seleccionTelevisor(consumo, procedencia) {
-      // var pulgadas = prompt("Ingrese las pulgadas: ");
-      var pulgadas = document.getElementsByClassName("pulgadas").value;
-      console.log(pulgadas);
-      var esTDT = ("¿Tiene sintonizador de TDT? (si/no)");
-      var tdt = tieneSintonizador(esTDT);
+  agregarInventario(){
+    
+  }
+}
+
+class Facturacion{
+  constructor(){
+
+  }
+}
+
+class Controlador {
+  seleccionTelevisor(consumo,procedencia,pulgadas,esTDT) {
+      var tdt = esTDT == "si"? true : false;
       var televisor = new Televisor(consumo, procedencia, pulgadas, tdt);
       var precio = televisor.calcularPrecio();
-
+      console.log(precio);
       return precio;
   }
-
   tieneSintonizador(esTDT){
-      var tdt = false;
-      if (esTDT == 'si') {
-          tdt = true;
-      } else if (esTDT == 'no') {
-          tdt = false;
-      }
-      return tdt;
+    var tdt = false;
+    if (esTDT == 'si') {
+        tdt = true;
+    } else if (esTDT == 'no') {
+        tdt = false;
+    }
+    return tdt;
   }
-    seleccionNevera(consumo, procedencia){
-    var capacidad = prompt("Ingrese la capacidad (lt): ");
+  seleccionNevera(consumo, procedencia,capacidad){
+    cantidad = parseInt(capacidad);
     var nevera = new Nevera(consumo, procedencia, capacidad);
     precio = nevera.calcularPrecio();
     return precio;
   }
   seleccionElectrodomesticos(consumo, procedencia){
-      var electrodomestico = new Electrodomesticos(consumo,procedencia);
-      let precio = electrodomestico.calcularPrecio();
-      return precio;
+    var electrodomestico = new Electrodomesticos(consumo,procedencia);
+    var precio = electrodomestico.calcularPrecio();
+    console.log("Precio general: " + precio);
+    return precio;
   }
 }
 
@@ -158,11 +161,32 @@ class Controlador {
 self.addEventListener("load",main);
 
 function main() {
-  var salir = false;
   var precioTotal = 0.0;
-  var controlador = new Controlador();
   var precioItem = 0;
-  controlador.agregarInventario();
+  var controlador = new Controlador();
+  // var inventario = new Inventario();
+
+  document.querySelector("button").addEventListener("click",function(){
+    var cantidad = document.getElementById("cantidad").value;
+    var tipoElectro = document.getElementById("tipo_electrodomestico").value;
+    var consumo = document.getElementById("consumo").value;
+    var procedencia = document.getElementById("procedencia").value;
+    var pulgadas = document.getElementById("pulgadas").value;
+    var tdt = document.getElementById("tdt").value;
+    var capacidad = document.getElementById("capacidad").value;
+
+    console.log(tdt);
+    
+    if (tipoElectro == "general"){
+      controlador.seleccionElectrodomesticos(consumo, procedencia);
+    } else if (tipoElectro == "televisor"){
+      controlador.seleccionTelevisor();
+    }
+    // else if (tipoElectro == "nevera"){
+    //   controlador.seleccionNevera();
+    // }
+    // inventario.agregarInventario(cantidad,tipoElectro,consumo,procedencia,pulgadas,tdt,capacidad);
+  })
   
   
 

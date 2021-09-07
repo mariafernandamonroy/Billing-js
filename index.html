@@ -9,21 +9,35 @@
 <body>
   <h1>Añadir al inventario</h1>
   <div>
-    <label id="">Cantidad</label>
+    <label id="">Indique la cantidad de productos a agregar</label>
     <br>
     <input id="cantidad" type="number">
     <br>
-    <label id="">Tipo de electrodomestico (general/televisor/nevera)</label>
+    <label id="">Seleccione el tipo de electrodomestico</label>
     <br>
-    <input id="tipo_electrodomestico" type="text">
+    <select name="" id="tipo_electrodomestico">
+      <option value="general" id="tipoGeneral">General</option>
+      <option value="televisor" id="tipoTelevisor">Televisor</option>
+      <option value="nevera" id="tipoNever">Nevera</option>
+    </select>
+    <!-- <input id="tipo_electrodomestico" type="text"> -->
     <br>
-    <label id="">Consumo</label>
+    <label id="">Seleccione el consumo</label>
     <br>
-    <input id="consumo" type="text">
+    <select name="" id="consumo">
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+    </select>
+    <!-- <input id="consumo" type="text"> -->
     <br>
-    <label id="">Procedencia</label>
+    <label id="">Seleccione la procedencia</label>
     <br>
-    <input id="procedencia" type="text">
+    <select name="" id="procedencia">
+      <option value="nacional">Nacional</option>
+      <option value="importado">Importado</option>
+    </select>
+    <!-- <input id="procedencia" type="text"> -->
   </div>
   <div>
     <h2>Televisor</h2>
@@ -32,9 +46,13 @@
     <br>
     <input id="pulgadas" type="number">
     <br>
-    <label id="">TDT (si/no)</label>
+    <label id="">¿Tiene sintonizador tdt?</label>
     <br>
-    <input id="tdt" type="text">
+    <select name="" id="tdt">
+      <option value="si">Si</option>
+      <option value="no">No</option>
+    </select>
+    <!-- <input id="tdt" type="text"> -->
   </div>
   <div>
     <h2>Nevera</h2>
