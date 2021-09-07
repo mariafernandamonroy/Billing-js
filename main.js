@@ -6,6 +6,10 @@ class Electrodomesticos {
     this.precio = 0.0;
   }
 
+  setPrecio(precio){
+      this.precio = precio;
+  }
+
   calcularPrecio(){
     switch (this.consumo){
         case 'A': {
@@ -40,6 +44,7 @@ class Televisor extends Electrodomesticos {
     super(consumo, procedencia);
     this.pulgadas = pulgadas;
     this.TDT = TDT;
+    this.precio = this.precio;
   }
 
   getPulgadas(){
@@ -48,6 +53,10 @@ class Televisor extends Electrodomesticos {
 
   isTDT() {
     return this.TDT;
+  }
+
+  setPrecio(precio){
+    this.precio = precio;
   }
 
   calcularPrecio() {
@@ -70,6 +79,7 @@ class Nevera extends Electrodomesticos {
   constructor(consumo, procedencia, capacidad){
       super(consumo, procedencia);
       this.capacidad = capacidad;
+      this.precio = this.precio;
   }
 
   getCapacidad() {
@@ -78,6 +88,10 @@ class Nevera extends Electrodomesticos {
 
   setCapacidad(capacidad) {
       this.capacidad = capacidad;
+  }
+
+  setPrecio(precio){
+    this.precio = precio;
   }
 
   calcularPrecio(){
@@ -103,24 +117,14 @@ class Facturación {
 }
 
 class Inventario{
-  constructor(electrodomestico,televisor,nevera,cantidad){
-    this.electrodomestico = electrodomestico;
-    this.televisor = televisor;
-    this.nevera = nevera;
-    this.cantidad = cantidad;
-    this.inventario = {
-      cantidad: this.cantidad,
-      consumo: electrodomestico.consumo,
-      procedencia: electrodomestico.procedencia,
-      tipoElectro: tipoElectro,
-      pulgadas: televisor.pulgadas,
-      tdt: televisor.tdt,
-      cantidad: nevera.cantidad
-    }
-    console.log(inventario);
-  }
+  inventario = [];
+  fs = require("fs-extra"); 
+  
   agregarInventario(){
-    
+    this.inventario.push(producto);
+    var arrayJson = this.fs.readJSON(".\database.json").then((data) => console.log(data));
+    this.fs.writeJSON(".\database.json",[...arrayJson, this.inventario]);
+    // var dictstring = JSON.stringify(this.inventario);
   }
 }
 
@@ -134,21 +138,24 @@ class Controlador {
   seleccionElectrodomesticos(consumo, procedencia){
     var electrodomestico = new Electrodomesticos(consumo,procedencia);
     var precio = electrodomestico.calcularPrecio();
-    console.log("Precio general: " + precio);
-    return precio;
+    electrodomestico.precio;
+    console.log("Precio general: " + electrodomestico.precio);
+    return electrodomestico;
   }
   seleccionTelevisor(consumo,procedencia,pulgadas,esTDT) {
       var tdt = esTDT == "si"? true : false;
       var televisor = new Televisor(consumo, procedencia, pulgadas, tdt);
       var precio = televisor.calcularPrecio();
-      console.log("Precio televisor: " + precio);
-      return precio;
+      televisor.setPrecio(precio);
+      console.log("Precio televisor: " + televisor.precio);
+      return televisor;
   }
   seleccionNevera(consumo, procedencia,capacidad){
     var nevera = new Nevera(consumo, procedencia, capacidad);
     var precio = nevera.calcularPrecio();
-    console.log("Precio nevera: " + precio);
-    return precio;
+    nevera.setPrecio(precio);
+    console.log("Precio nevera: " + nevera.precio);
+    return nevera;
   }
 }
 
@@ -157,9 +164,9 @@ self.addEventListener("load",main);
 
 function main() {
   var precioTotal = 0.0;
-  var precioItem = 0;
+  var producto = 0;
   var controlador = new Controlador();
-  // var inventario = new Inventario();
+  
 
   document.querySelector("button").addEventListener("click",function(){
     var cantidad = document.getElementById("cantidad").value;
@@ -171,12 +178,16 @@ function main() {
     var capacidad = document.getElementById("capacidad").value;
 
     if (tipoElectro == "general"){
-      controlador.seleccionElectrodomesticos(consumo, procedencia);
+      producto = controlador.seleccionElectrodomesticos(consumo, procedencia);
     } else if (tipoElectro == "televisor"){
-      controlador.seleccionTelevisor(consumo,procedencia,pulgadas,tdt);
+      producto = controlador.seleccionTelevisor(consumo,procedencia,pulgadas,tdt);
     } else if (tipoElectro == "nevera"){    
-      controlador.seleccionNevera(consumo, procedencia,capacidad);
+      producto = controlador.seleccionNevera(consumo, procedencia,capacidad);
     }
-    // inventario.agregarInventario(cantidad,tipoElectro,consumo,procedencia,pulgadas,tdt,capacidad);
+    var inventario = new Inventario(producto);
+    inventario.agregarInventario();
+    
+
+    
   })
 }

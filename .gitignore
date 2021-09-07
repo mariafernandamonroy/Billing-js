@@ -1,2 +1,4 @@
 *.docx
 borrador
+node_modules/*
+package-lock.json
