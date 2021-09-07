@@ -1,6 +1,7 @@
 'use strict';
 class Electrodomesticos {
   constructor(consumo,procedencia){
+    this.nombre = "General";
     this.consumo = consumo;
     this.procedencia = procedencia;
     this.precio = 0.0;
@@ -42,6 +43,7 @@ class Electrodomesticos {
 class Televisor extends Electrodomesticos {
   constructor(consumo, procedencia, pulgadas, TDT) {
     super(consumo, procedencia);
+    this.nombre = "Televisor";
     this.pulgadas = pulgadas;
     this.TDT = TDT;
     this.precio = this.precio;
@@ -78,6 +80,7 @@ class Televisor extends Electrodomesticos {
 class Nevera extends Electrodomesticos {
   constructor(consumo, procedencia, capacidad){
       super(consumo, procedencia);
+      this.nombre = "Nevera";
       this.capacidad = capacidad;
       this.precio = this.precio;
   }
@@ -117,14 +120,18 @@ class Facturación {
 }
 
 class Inventario{
-  inventario = [];
-  fs = require("fs-extra"); 
   
+  constructor(producto){
+    this.producto = producto;
+    this.key = this.key;
+    this.value = this.value;
+  }
   agregarInventario(){
-    this.inventario.push(producto);
-    var arrayJson = this.fs.readJSON(".\database.json").then((data) => console.log(data));
-    this.fs.writeJSON(".\database.json",[...arrayJson, this.inventario]);
-    // var dictstring = JSON.stringify(this.inventario);
+    var inventario = {
+      key: this.producto.nombre,
+      value: this.producto
+    };
+    console.log(inventario);
   }
 }
 
@@ -186,8 +193,6 @@ function main() {
     }
     var inventario = new Inventario(producto);
     inventario.agregarInventario();
-    
-
-    
+        
   })
 }
