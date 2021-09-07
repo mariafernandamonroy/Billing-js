@@ -21,7 +21,7 @@ class Electrodomesticos {
             break;
         }
     }
-    switch (procedencia){
+    switch (this.procedencia){
         case "nacional":{
             this.precio += 250000;
             break;
@@ -47,20 +47,20 @@ class Televisor extends Electrodomesticos {
   }
 
   isTDT() {
-    return TDT;
+    return this.TDT;
   }
 
   calcularPrecio() {
     var precio = super.calcularPrecio();
-    tamanoPulgadas = getPulgadas();
-    esTDT = isTDT();
+    var tamanoPulgadas = this.getPulgadas();
+    var esTDT = this.isTDT();
     if(tamanoPulgadas > 40){
         precio += this.precio * 0.3;
-        System.out.println("Se adiciona el 30%");
+        console.log("Se adiciona el 30% = " + precio);
     }
     if(esTDT == true){
         precio += 250000;
-        System.out.println("Se adiciona 250.000");
+        console.log("Se adiciona 250.000");
     }
     return precio;
   }
@@ -73,23 +73,28 @@ class Nevera extends Electrodomesticos {
   }
 
   getCapacidad() {
-      return capacidad;
+      return this.capacidad;
   }
 
   setCapacidad(capacidad) {
       this.capacidad = capacidad;
   }
 
-  valorExtra(precio){
-      if (this.capacidad > 120){
-          extra = (this.capacidad - 120) / 10;
-          return precio * 0.05 * extra;
-      }
-      else{return 0.00;}
-  }
-
   calcularPrecio(){
-      return super.calcularPrecio() + valorExtra(getPrecio());
+    var precio = super.calcularPrecio();
+    var resultado = 0 ;
+    this.capacidad = parseInt(this.capacidad);
+    
+    if (this.capacidad > 120){
+      var extra = (this.capacidad - 120) / 10;
+      resultado = precio * 0.05 * extra;
+      console.log("valor añadido: "+ extra);
+    }
+    else{resultado = 0.00;}
+    
+    console.log("extra: " + resultado);
+
+    return precio + resultado;
   }
 }
 
@@ -126,27 +131,26 @@ class Facturacion{
 }
 
 class Controlador {
-  seleccionTelevisor(consumo,procedencia,pulgadas,esTDT) {
-      var tdt = esTDT == "si"? true : false;
-      var televisor = new Televisor(consumo, procedencia, pulgadas, tdt);
-      var precio = televisor.calcularPrecio();
-      console.log(precio);
-      return precio;
-  }
-  seleccionNevera(consumo, procedencia,capacidad){
-    cantidad = parseInt(capacidad);
-    var nevera = new Nevera(consumo, procedencia, capacidad);
-    precio = nevera.calcularPrecio();
-    return precio;
-  }
   seleccionElectrodomesticos(consumo, procedencia){
     var electrodomestico = new Electrodomesticos(consumo,procedencia);
     var precio = electrodomestico.calcularPrecio();
     console.log("Precio general: " + precio);
     return precio;
   }
+  seleccionTelevisor(consumo,procedencia,pulgadas,esTDT) {
+      var tdt = esTDT == "si"? true : false;
+      var televisor = new Televisor(consumo, procedencia, pulgadas, tdt);
+      var precio = televisor.calcularPrecio();
+      console.log("Precio televisor: " + precio);
+      return precio;
+  }
+  seleccionNevera(consumo, procedencia,capacidad){
+    var nevera = new Nevera(consumo, procedencia, capacidad);
+    var precio = nevera.calcularPrecio();
+    console.log("Precio nevera: " + precio);
+    return precio;
+  }
 }
-
 
 
 self.addEventListener("load",main);
@@ -166,53 +170,13 @@ function main() {
     var tdt = document.getElementById("tdt").value;
     var capacidad = document.getElementById("capacidad").value;
 
-    console.log(tdt);
-    
     if (tipoElectro == "general"){
       controlador.seleccionElectrodomesticos(consumo, procedencia);
     } else if (tipoElectro == "televisor"){
-      controlador.seleccionTelevisor();
+      controlador.seleccionTelevisor(consumo,procedencia,pulgadas,tdt);
+    } else if (tipoElectro == "nevera"){    
+      controlador.seleccionNevera(consumo, procedencia,capacidad);
     }
-    // else if (tipoElectro == "nevera"){
-    //   controlador.seleccionNevera();
-    // }
     // inventario.agregarInventario(cantidad,tipoElectro,consumo,procedencia,pulgadas,tdt,capacidad);
   })
-  
-  
-
-
-      // var tipoElectro = prompt("Por favor ingrese el tipo de electrodomestico: \n" +
-      //         "1) Televisor \n" +
-      //         "2) Nevera\n" +
-      //         "3) Otros\n" +
-      //         "");
-  //     var consumo = prompt("Ingrese el consumo (A,B,C): ");
-  //     var procedencia = ("Ingrese la procedencia (nacional,importado): ");
-
-  //     switch (tipoElectro){
-  //         case '1':
-  //             precioItem = controlador.seleccionTelevisor(consumo, procedencia);
-  //             precioTotal += precioItem;
-  //             System.out.print("El precio de este item es de: " + precioItem + "\n");
-  //             break;
-  //         case '2':
-  //             precioItem = controlador.seleccionNevera(consumo,procedencia);
-  //             precioTotal += precioItem;
-  //             // System.out.print("El precio de este item es de: " + precioItem + "\n");
-  //             break;
-  //         case '3':
-  //             precioItem = controlador.seleccionElectrodomesticos(consumo,procedencia);
-  //             precioTotal += precioItem;
-  //             // System.out.print("El precio de este item es de: " + precioItem + "\n");
-  //             break;
-  //     }
-
-  //     var decision = prompt("Desea finalizar?:\n" +
-  //             "1) Si \n" +
-  //             "2) No\n" +
-  //             "");
-  //     if (decision == '1'){salir=true;}
-  // }
-  // System.out.print("El costo total de su producto es de: " + precioTotal);
 }
